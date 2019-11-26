@@ -29,22 +29,29 @@ clearConsole()
 
 jimp.read('world.jpg', (err, map_image) => {
   if (err) throw err;
-  map_image.resize(100,50);
-  console.log(map_image.getPixelColor(0,0)); //gibt die Farbe des Pixels links oben zurück
-  writeCharacterToConsole('#',0,0); //schreibt ein # links oben in die Konsole
+  map_image.resize(100, 50);
+  console.log(map_image.getPixelColor(0, 0)); //gibt die Farbe des Pixels links oben zurück
+  writeCharacterToConsole('#', 0, 0); //schreibt ein # links oben in die Konsole
 
   //----- Hier kommt euer Code hin -----
-  
+  //von links oben zweile für zeile nach rechts unten
 
 
+  //wenn weiss dann 0 wennschwarz dann x
+  let chalk = require('chalk')
+  for (let x = 0; x < 100; x++) {
+    for (let y = 0; y < 50; y++) {
+      if (map_image.getPixelColor(x, y) <= 255) {
+        writeCharacterToConsole(chalk.green('#'), x, y)
+      }
+    }
+  }
 });
-
-
 
 //Vorerst nur ein Platzhalter
 setInterval(function () {
-    
-},1000);
+
+}, 1000);
 
 
 /*
@@ -59,6 +66,6 @@ function clearConsole () {
 }
 
 function writeCharacterToConsole (char, x, y) {
-  rl.cursorTo(process.stdout,x,y)
+  rl.cursorTo(process.stdout, x, y)
   process.stdout.write(char)
 }
