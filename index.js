@@ -22,12 +22,13 @@
  *
  */
 
-const rl = require('readline')
-const jimp = require('jimp')
+  let chalk = require('chalk')
+  const rl = require('readline')
+// const jimp = require('jimp')
 
-clearConsole()
+  clearConsole()
 
-jimp.read('world.jpg', (err, map_image) => {
+/*jimp.read('world.jpg', (err, map_image) => {
   if (err) throw err;
   map_image.resize(100, 50);
   console.log(map_image.getPixelColor(0, 0)); //gibt die Farbe des Pixels links oben zurück
@@ -46,26 +47,57 @@ jimp.read('world.jpg', (err, map_image) => {
       }
     }
   }
-});
+});*/
 
 //Vorerst nur ein Platzhalter
-setInterval(function () {
+  setInterval(function () {
 
-}, 1000);
+  }, 1000);
 
 
 /*
  * HELPER FUNCTIONS - DO NOT CHANGE
  */
-function clearConsole () {
-  const blank = '\n'.repeat(process.stdout.rows)
-  console.log(blank)
+  function clearConsole () {
+    const blank = '\n'.repeat(process.stdout.rows)
+    console.log(blank)
 
-  rl.cursorTo(process.stdout, 0, 0)
-  rl.clearScreenDown(process.stdout)
-}
+    rl.cursorTo(process.stdout, 0, 0)
+    rl.clearScreenDown(process.stdout)
+  }
 
-function writeCharacterToConsole (char, x, y) {
-  rl.cursorTo(process.stdout, x, y)
-  process.stdout.write(char)
-}
+  function writeCharacterToConsole (char, x, y) {
+    rl.cursorTo(process.stdout, x, y)
+    process.stdout.write(char)
+  }
+
+
+  function generateInvader (width, height, xPosition, yPosition) {
+
+
+//random schwarz weiss Pixel generieren
+    for (let x = 0; x < width; x++) {
+      for (let y = 0; y < height; y++) {
+        if (Math.random() <= 0.5) {
+          let h = 0//Math.floor(Math.random() * 255);
+          let s = Math.floor(Math.random() * 100);
+          let v = Math.floor(Math.random() * 80);
+          //writeCharacterToConsole('#', x, y)
+          //writeCharacterToConsole('#', 2 * width - x,y)
+          writeCharacterToConsole(chalk.hsv(h,s,v)('◼'), 2 * width - x + xPosition, y + yPosition);
+          writeCharacterToConsole(chalk.hsv(h,s,v)('◼'),x + xPosition, y + yPosition)
+      
+        }
+      }
+    }
+  }
+  setInterval(function () {
+    const xPosition = Math.floor(Math.random() * 200)
+    const yPosition = Math.floor(Math.random() * 80)
+    clearConsole();
+    generateInvader(7, 9, xPosition, yPosition);
+    
+  },500);
+
+
+
